@@ -1,0 +1,6 @@
+myki_watch_1:
+  name: MyKi Watch
+  mac: FF:FF:FF:FF:FF:F1
+  picture: https://www.home-assistant.io/images/favicon-192x192.png
+  track: true
+

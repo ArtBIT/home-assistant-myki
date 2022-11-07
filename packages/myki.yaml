@@ -1,0 +1,42 @@
+rest: 
+  - authentication: basic
+    username: ""
+    password: ""
+    scan_interval: 60
+    headers:
+      Accept: application/json,text/plain,*/*
+      Content-Type: application/json
+      User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:106.0) Gecko/20100101 Firefox/106.0
+      Authorization: !secret my_myki_token
+    resource: https://my.myki.watch/api/watch/app-data
+    params:
+      id: !secret my_myki_device
+    sensor:
+      - name: "MyKi Watch 1"
+        value_template: "OK"
+        json_attributes_path: "$.data.current"
+        json_attributes:
+          - position
+          - battery
+          - steps
+
+automation:
+  - id: update_myki_watch_1_position 
+    alias: Update MyKi position for watch 1
+    description: ''
+    trigger:
+    - platform: state
+      entity_id: sensor.myki_watch_1
+    condition: []
+    action:
+    - service: device_tracker.see
+      data:
+        source_type: gps
+        dev_id: myki_watch_1
+        host_name: myki_watch_1
+        gps:
+        - '{{ state_attr(''sensor.myki_watch_1'', ''position'').latitude }}'
+        - '{{ state_attr(''sensor.myki_watch_1'', ''position'').longitude }}'
+        gps_accuracy: '{{ state_attr(''sensor.myki_watch_1'', ''position'').accuracy }}'
+        battery: '{{ state_attr(''sensor.myki_watch_1'', ''battery'') | round(0) }}'
+    mode: single
