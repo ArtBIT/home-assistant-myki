@@ -1,24 +1,21 @@
-rest: 
-  - authentication: basic
-    username: ""
-    password: ""
+sensor:
+  - platform: rest
+    resource: https://my.myki.watch/api/watch/app-data
     scan_interval: 60
     headers:
       Accept: application/json,text/plain,*/*
       Content-Type: application/json
       User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:106.0) Gecko/20100101 Firefox/106.0
       Authorization: !secret my_myki_token
-    resource: https://my.myki.watch/api/watch/app-data
     params:
       id: !secret my_myki_device
-    sensor:
-      - name: "MyKi Watch 1"
-        value_template: "OK"
-        json_attributes_path: "$.data.current"
-        json_attributes:
-          - position
-          - battery
-          - steps
+    name: "MyKi Watch 1"
+    value_template: "OK"
+    json_attributes_path: "$.data.current"
+    json_attributes:
+      - position
+      - battery
+      - steps
 
 automation:
   - id: update_myki_watch_1_position 
