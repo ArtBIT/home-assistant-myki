@@ -80,5 +80,15 @@ homeassistant:
 
 Next, you go to your `Settings > People` and add your child and use `myki_watch_1` as a tracking device.
 
+You have to copy the auth key from the MyKi web app. Login to [https://my.myki.watch/](https://my.myki.watch/) and in the console type:
+```
+CWA.Ajax.auth
+```
+
+After you hit enter, copy the result (it will look something like `XYZ...==`) and add it to your `secrets.yaml` as 
+```
+my_myki_token: Basic XYZ...==
+```
+
 That's it. 
 Cheers
